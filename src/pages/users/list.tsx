@@ -1,19 +1,27 @@
 import { DataGrid, GridSortItem, type GridColDef } from '@mui/x-data-grid'
-import { DeleteButton, EditButton, List, ShowButton } from '@refinedev/mui'
+import {
+  DeleteButton,
+  EditButton,
+  List,
+  ShowButton,
+  useDataGrid,
+} from '@refinedev/mui'
 import React from 'react'
 import { UserResponse } from '../../models/responses/userResponse'
 import { useList } from '@refinedev/core'
 
 export const UserList = () => {
-  const [sort, setSort] = React.useState<GridSortItem>()
-  const { data, isLoading } = useList<UserResponse>({
+  // const { data, isLoading } = useList<UserResponse>({
+  //   resource: 'users',
+  //   sorters: [
+  //     {
+  //       field: sort?.field ?? 'id',
+  //       order: sort?.sort ?? 'asc',
+  //     },
+  //   ],
+  // })
+  const { dataGridProps } = useDataGrid<UserResponse>({
     resource: 'users',
-    sorters: [
-      {
-        field: sort?.field ?? 'id',
-        order: sort?.sort ?? 'asc',
-      },
-    ],
   })
 
   const columns = React.useMemo<GridColDef<UserResponse>[]>(
@@ -55,7 +63,6 @@ export const UserList = () => {
           return (
             <>
               <EditButton hideText recordItemId={row.id} />
-              <ShowButton hideText recordItemId={row.id} />
               <DeleteButton hideText recordItemId={row.id} />
             </>
           )
@@ -71,14 +78,7 @@ export const UserList = () => {
   return (
     <List>
       <DataGrid
-        loading={isLoading}
-        onSortModelChange={(model) => {
-          if (model[0]) {
-            setSort(model[0])
-          }
-        }}
-        sortingMode="server"
-        rows={data?.data ?? []}
+        {...dataGridProps}
         columns={columns}
         filterMode="client"
         autoHeight

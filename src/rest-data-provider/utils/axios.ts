@@ -1,6 +1,7 @@
 import axios from 'axios'
-import type { HttpError } from '@refinedev/core'
+import { useLogout, type HttpError } from '@refinedev/core'
 import { TOKEN_KEY } from '../../authProvider'
+import { constants } from '../../constants'
 
 const axiosInstance = axios.create()
 
@@ -14,14 +15,17 @@ axiosInstance.interceptors.request.use(async (config) => {
 })
 
 axiosInstance.interceptors.response.use(
-  (response) => {
-    return response
-  },
+  (response) => response,
   (error) => {
+    if (error.response?.data?.code === constants.code.Unauthorized) {
+      useLogout()
+      return
+    }
+
     const customError: HttpError = {
       ...error,
       message: error.response?.data?.message,
-      statusCode: error.response?.status,
+      statusCode: error.response?.data?.code,
     }
 
     return Promise.reject(customError)

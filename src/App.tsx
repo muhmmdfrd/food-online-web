@@ -34,7 +34,7 @@ import {
   CategoryShow,
 } from './pages/categories'
 import { Login } from './pages/login'
-import { UserList } from './pages/users'
+import { UserCreate, UserList, UserUpdate } from './pages/users'
 import { dataProvider } from './dataProvider'
 
 function App() {
@@ -47,7 +47,9 @@ function App() {
           <RefineSnackbarProvider>
             <DevtoolsProvider>
               <Refine
-                dataProvider={dataProvider('https://localhost:7286/api')}
+                dataProvider={{
+                  default: dataProvider('https://localhost:7286/api'),
+                }}
                 notificationProvider={notificationProvider}
                 routerProvider={routerBindings}
                 authProvider={authProvider}
@@ -58,26 +60,6 @@ function App() {
                     create: '/users/create',
                     edit: '/users/edit/:id',
                     show: '/users/show/:id',
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                  {
-                    name: 'blog_posts',
-                    list: '/blog-posts',
-                    create: '/blog-posts/create',
-                    edit: '/blog-posts/edit/:id',
-                    show: '/blog-posts/show/:id',
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                  {
-                    name: 'categories',
-                    list: '/categories',
-                    create: '/categories/create',
-                    edit: '/categories/edit/:id',
-                    show: '/categories/show/:id',
                     meta: {
                       canDelete: true,
                     },
@@ -107,12 +89,7 @@ function App() {
                       index
                       element={<NavigateToResource resource="blog_posts" />}
                     />
-                    <Route path="/blog-posts">
-                      <Route index element={<BlogPostList />} />
-                      <Route path="create" element={<BlogPostCreate />} />
-                      <Route path="edit/:id" element={<BlogPostEdit />} />
-                      <Route path="show/:id" element={<BlogPostShow />} />
-                    </Route>
+
                     <Route path="/categories">
                       <Route index element={<CategoryList />} />
                       <Route path="create" element={<CategoryCreate />} />
@@ -121,6 +98,8 @@ function App() {
                     </Route>
                     <Route path="/users">
                       <Route index element={<UserList />} />
+                      <Route path="create" element={<UserCreate />} />
+                      <Route path="edit/:id" element={<UserUpdate />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

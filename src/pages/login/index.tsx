@@ -4,8 +4,8 @@ import { FormProvider } from 'react-hook-form'
 import {
   type BaseRecord,
   type HttpError,
+  useApiUrl,
   useLogin,
-  useNotification,
   useTranslate,
 } from '@refinedev/core'
 import { ThemedTitleV2 } from '@refinedev/mui'
@@ -35,20 +35,19 @@ export const Login: React.FC = () => {
     formState: { errors },
   } = methods
 
-  const { mutate } = useLogin<AuthRequest>()
-  const { open } = useNotification()
+  type LoginRequest = AuthRequest & { url: string }
+
+  const { mutate } = useLogin<LoginRequest>()
+  const url = useApiUrl()
 
   const onSubmit = (request: AuthRequest) => {
+    const req: LoginRequest = { ...request, url: `${url}/auth` }
+
     setLoading(true)
-    mutate(request, {
+    mutate(req, {
       onSuccess: () => setLoading(false),
-      onError: (data) => {
+      onError: () => {
         setLoading(false)
-        open?.({
-          message: data.message,
-          type: 'error',
-          description: data.cause,
-        })
       },
     })
   }

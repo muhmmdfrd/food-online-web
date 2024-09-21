@@ -3,4 +3,6 @@ export type UserResponse = {
   name: string
   username: string
   roleName: string
+  roleId?: number
+  positionId?: number
 }

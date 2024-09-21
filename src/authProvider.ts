@@ -6,8 +6,8 @@ export const TOKEN_KEY = 'refine-auth'
 export const CURRENT_USER_KEY = 'refine-current-user'
 
 export const authProvider: AuthProvider = {
-  login: async ({ username, password }) => {
-    const response = await auth({ username, password })
+  login: async ({ url, username, password }) => {
+    const response = await auth(url, { username, password })
     if (response.success) {
       localStorage.setItem(TOKEN_KEY, response.data?.token ?? '')
       localStorage.setItem(

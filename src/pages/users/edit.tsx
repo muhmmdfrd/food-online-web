@@ -1,32 +1,26 @@
 import { Autocomplete, Box, TextField } from '@mui/material'
 import { Edit, useAutocomplete } from '@refinedev/mui'
-import { useForm } from '@refinedev/react-hook-form'
 import { Controller } from 'react-hook-form'
 import { RoleResponse } from '../../models/responses/roleResponse'
 import { PositionResponse } from '../../models/responses/positionResponse'
-import { UserResponse } from '../../models/responses/userResponse'
+import { useForm } from '@refinedev/react-hook-form'
 
 export const UserUpdate: React.FC = () => {
   const {
     saveButtonProps,
-    refineCore: { formLoading, query },
+    refineCore: { formLoading },
     register,
     control,
     formState: { errors },
-  } = useForm({})
-
-  // @ts-ignore
-  const data = query?.data as UserResponse
+  } = useForm()
 
   const { autocompleteProps: roleProps } = useAutocomplete<RoleResponse>({
     resource: 'roles',
-    defaultValue: data?.roleId,
   })
 
   const { autocompleteProps: positionProps } =
     useAutocomplete<PositionResponse>({
       resource: 'positions',
-      defaultValue: data?.positionId,
     })
 
   return (
@@ -53,7 +47,7 @@ export const UserUpdate: React.FC = () => {
           {...register('username', {
             required: 'This field is required',
           })}
-          error={!!(errors as any)?.username}
+          error={!!errors?.username}
           helperText={(errors as any)?.username?.message}
           margin="normal"
           fullWidth
@@ -63,10 +57,8 @@ export const UserUpdate: React.FC = () => {
           name="username"
         />
         <TextField
-          {...register('password', {
-            required: 'This field is required',
-          })}
-          error={!!(errors as any)?.password}
+          {...register('password')}
+          error={!!errors?.password}
           helperText={(errors as any)?.password?.message}
           margin="normal"
           fullWidth
@@ -79,7 +71,7 @@ export const UserUpdate: React.FC = () => {
           control={control}
           name={'roleId'}
           rules={{ required: 'This field is required' }}
-          defaultValue={null as any}
+          defaultValue={null}
           render={({ field }) => (
             <Autocomplete
               {...roleProps}
@@ -95,7 +87,7 @@ export const UserUpdate: React.FC = () => {
                     const itemId =
                       typeof item === 'object'
                         ? item?.id?.toString()
-                        : item?.toString()
+                        : (item as string)
                     const pId = p?.id?.toString()
                     return itemId === pId
                   })?.name ?? ''
@@ -110,7 +102,7 @@ export const UserUpdate: React.FC = () => {
                   label={'Role'}
                   margin="normal"
                   variant="outlined"
-                  error={!!(errors as any)?.roleId}
+                  error={!!errors?.roleId}
                   helperText={(errors as any)?.roleId?.message}
                   required
                 />
@@ -121,7 +113,7 @@ export const UserUpdate: React.FC = () => {
         <Controller
           control={control}
           name={'positionId'}
-          defaultValue={null as any}
+          defaultValue={null}
           render={({ field }) => (
             <Autocomplete
               {...positionProps}
@@ -137,7 +129,7 @@ export const UserUpdate: React.FC = () => {
                     const itemId =
                       typeof item === 'object'
                         ? item?.id?.toString()
-                        : item?.toString()
+                        : (item as string)
                     const pId = p?.id?.toString()
                     return itemId === pId
                   })?.name ?? ''
@@ -152,8 +144,6 @@ export const UserUpdate: React.FC = () => {
                   label={'Position'}
                   margin="normal"
                   variant="outlined"
-                  error={!!(errors as any)?.position?.id}
-                  helperText={(errors as any)?.position?.id?.message}
                 />
               )}
             />

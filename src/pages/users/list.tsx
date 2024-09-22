@@ -1,38 +1,15 @@
-import { DataGrid, GridSortItem, type GridColDef } from '@mui/x-data-grid'
-import {
-  DeleteButton,
-  EditButton,
-  List,
-  ShowButton,
-  useDataGrid,
-} from '@refinedev/mui'
+import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { DeleteButton, EditButton, List, useDataGrid } from '@refinedev/mui'
 import React from 'react'
 import { UserResponse } from '../../models/responses/userResponse'
-import { useList } from '@refinedev/core'
 
 export const UserList = () => {
-  // const { data, isLoading } = useList<UserResponse>({
-  //   resource: 'users',
-  //   sorters: [
-  //     {
-  //       field: sort?.field ?? 'id',
-  //       order: sort?.sort ?? 'asc',
-  //     },
-  //   ],
-  // })
   const { dataGridProps } = useDataGrid<UserResponse>({
     resource: 'users',
   })
 
   const columns = React.useMemo<GridColDef<UserResponse>[]>(
     () => [
-      {
-        field: 'id',
-        headerName: 'ID',
-        type: 'number',
-        minWidth: 50,
-        sortable: false,
-      },
       {
         field: 'username',
         flex: 1,

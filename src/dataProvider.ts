@@ -4,11 +4,8 @@ import { BaseResponse } from './models/responses/baseResponse'
 
 export const dataProvider = (url: string): DataProvider => ({
   getOne: async ({ resource, id }) => {
-    const { data } = await axiosInstance.get<BaseResponse<any>>(
-      `${url}/${resource}/${id}`
-    )
-
-    return data.data
+    const { data } = await axiosInstance.get(`${url}/${resource}/${id}`)
+    return data
   },
 
   getList: async ({ resource, pagination, sorters }) => {
@@ -33,8 +30,16 @@ export const dataProvider = (url: string): DataProvider => ({
     )
     return data.data
   },
-  update: async () => {
-    throw new Error('Not implemented')
+  update: async ({ resource, variables, id }) => {
+    const request = {
+      ...variables,
+      id,
+    }
+    const { data } = await axiosInstance.put<BaseResponse<any>>(
+      `${url}/${resource}`,
+      request
+    )
+    return data.data
   },
   deleteOne: async ({ id, resource }) => {
     const { data } = await axiosInstance.delete<BaseResponse<any>>(

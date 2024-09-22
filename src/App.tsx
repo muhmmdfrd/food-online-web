@@ -1,14 +1,12 @@
 import { Authenticated, Refine } from '@refinedev/core'
 import { DevtoolsPanel, DevtoolsProvider } from '@refinedev/devtools'
 import { RefineKbar, RefineKbarProvider } from '@refinedev/kbar'
-
 import {
   ErrorComponent,
   notificationProvider,
   RefineSnackbarProvider,
   ThemedLayoutV2,
 } from '@refinedev/mui'
-
 import CssBaseline from '@mui/material/CssBaseline'
 import GlobalStyles from '@mui/material/GlobalStyles'
 import routerBindings, {
@@ -21,21 +19,10 @@ import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import { authProvider } from './authProvider'
 import { Header } from './components/header'
 import { ColorModeContextProvider } from './contexts/color-mode'
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from './pages/blog-posts'
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from './pages/categories'
 import { Login } from './pages/login'
 import { UserCreate, UserList, UserUpdate } from './pages/users'
 import { dataProvider } from './dataProvider'
+import { constants } from './constants'
 
 function App() {
   return (
@@ -48,7 +35,7 @@ function App() {
             <DevtoolsProvider>
               <Refine
                 dataProvider={{
-                  default: dataProvider('https://localhost:7286/api'),
+                  default: dataProvider(constants.url),
                 }}
                 notificationProvider={notificationProvider}
                 routerProvider={routerBindings}
@@ -87,15 +74,8 @@ function App() {
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="blog_posts" />}
+                      element={<NavigateToResource resource="users" />}
                     />
-
-                    <Route path="/categories">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
-                    </Route>
                     <Route path="/users">
                       <Route index element={<UserList />} />
                       <Route path="create" element={<UserCreate />} />

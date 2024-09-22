@@ -4,6 +4,7 @@ import { UserResponse } from './models/responses/userResponse'
 
 export const TOKEN_KEY = 'refine-auth'
 export const CURRENT_USER_KEY = 'refine-current-user'
+export const REFRESH_TOKEN_KEY = 'refine-refresh-token'
 
 export const authProvider: AuthProvider = {
   login: async ({ url, username, password }) => {
@@ -14,6 +15,7 @@ export const authProvider: AuthProvider = {
         CURRENT_USER_KEY,
         JSON.stringify(response.data?.user) ?? ''
       )
+      localStorage.setItem(REFRESH_TOKEN_KEY, response.data?.code ?? '')
       return {
         success: true,
         redirectTo: '/',

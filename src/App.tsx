@@ -23,6 +23,8 @@ import { Login } from './pages/login'
 import { UserCreate, UserList, UserUpdate } from './pages/users'
 import { dataProvider } from './dataProvider'
 import { constants } from './constants'
+import { MerchantCreate, MerchantList, MerchantUpdate } from './pages/merchant'
+import { PositionCreate, PositionList, PositionUpdate } from './pages/position'
 
 function App() {
   return (
@@ -47,6 +49,26 @@ function App() {
                     create: '/users/create',
                     edit: '/users/edit/:id',
                     show: '/users/show/:id',
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
+                  {
+                    name: 'merchants',
+                    list: '/merchants',
+                    create: '/merchants/create',
+                    edit: '/merchants/edit/:id',
+                    show: '/merchants/show/:id',
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
+                  {
+                    name: 'positions',
+                    list: '/positions',
+                    create: '/positions/create',
+                    edit: '/positions/edit/:id',
+                    show: '/positions/show/:id',
                     meta: {
                       canDelete: true,
                     },
@@ -80,6 +102,16 @@ function App() {
                       <Route index element={<UserList />} />
                       <Route path="create" element={<UserCreate />} />
                       <Route path="edit/:id" element={<UserUpdate />} />
+                    </Route>
+                    <Route path="/merchants">
+                      <Route index element={<MerchantList />} />
+                      <Route path="create" element={<MerchantCreate />} />
+                      <Route path="edit/:id" element={<MerchantUpdate />} />
+                    </Route>
+                    <Route path="/positions">
+                      <Route index element={<PositionList />} />
+                      <Route path="create" element={<PositionCreate />} />
+                      <Route path="edit/:id" element={<PositionUpdate />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

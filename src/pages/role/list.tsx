@@ -18,12 +18,23 @@ export const RoleList = () => {
         disableColumnMenu: true,
       },
       {
-        field : 'dataStatusName',
-        flex : 1,
-        headerName : 'status',
-        minWidth: 250,
+        field: 'actions',
+        headerName: 'Actions',
+        sortable: false,
+        filterable: false,
         disableColumnMenu: true,
-      }
+        renderCell: function render({ row }) {
+          return (
+            <>
+              <EditButton hideText recordItemId={row.id} />
+              <DeleteButton hideText recordItemId={row.id} />
+            </>
+          )
+        },
+        align: 'center',
+        headerAlign: 'center',
+        minWidth: 80,
+      },
     ],
     []
   )

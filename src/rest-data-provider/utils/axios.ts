@@ -41,14 +41,28 @@ axiosInstance.interceptors.response.use(
           request
         )
 
-        localStorage.setItem(TOKEN_KEY, response.data?.token ?? '')
-        localStorage.setItem(REFRESH_TOKEN_KEY, response.data?.code ?? '')
+        if (response.success) {
+          localStorage.setItem(TOKEN_KEY, response.data?.token ?? '')
+          localStorage.setItem(REFRESH_TOKEN_KEY, response.data?.code ?? '')
 
-        axiosInstance.defaults.headers.common[
-          'Authorization'
-        ] = `Bearer ${response.data?.token}`
-        error.config.headers['Authorization'] = `Bearer ${response.data?.token}`
-        return axiosInstance(error.config)
+          axiosInstance.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${response.data?.token}`
+          error.config.headers[
+            'Authorization'
+          ] = `Bearer ${response.data?.token}`
+          return axiosInstance(error.config)
+        }
+
+        const customError: HttpError = {
+          ...error,
+          message: 'Login again',
+          statusCode: error.response?.data?.code,
+        }
+
+        useLogout()
+
+        return Promise.reject(customError)
       } catch (refreshError) {
         console.error('Token refresh failed:', refreshError)
         useLogout()

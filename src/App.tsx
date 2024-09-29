@@ -25,6 +25,7 @@ import { dataProvider } from './dataProvider'
 import { constants } from './constants'
 import { MerchantCreate, MerchantList, MerchantUpdate } from './pages/merchant'
 import { PositionCreate, PositionList, PositionUpdate } from './pages/position'
+import { RoleCreate, RoleList, RoleUpdate } from './pages/role'
 
 function App() {
   return (
@@ -73,6 +74,16 @@ function App() {
                       canDelete: true,
                     },
                   },
+                  {
+                    name: 'roles',
+                    list: '/roles',
+                    create: '/roles/create',
+                    edit: '/roles/edit/:id',
+                    show: '/roles/show/:id',
+                    meta: {
+                      canDelete: true,
+                    },
+                  }
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -112,6 +123,11 @@ function App() {
                       <Route index element={<PositionList />} />
                       <Route path="create" element={<PositionCreate />} />
                       <Route path="edit/:id" element={<PositionUpdate />} />
+                    </Route>
+                    <Route path="/roles">
+                      <Route index element={<RoleList />} />
+                      <Route path="create" element={<RoleCreate />} />
+                      <Route path="edit/:id" element={<RoleUpdate />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

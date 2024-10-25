@@ -1,5 +1,5 @@
 export const constants = {
-  url: 'http://api.safeplace.id/api',
+  url: 'https://ws.dapoergo.online/api',
   code: {
     Unauthorized: 4400,
   },

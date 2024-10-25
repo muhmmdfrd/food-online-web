@@ -1,0 +1,6 @@
+services:
+  web_admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: foodonline.web-admin

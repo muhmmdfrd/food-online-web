@@ -89,7 +89,7 @@ export const UserCreate: React.FC = () => {
                     const itemId =
                       typeof item === 'object'
                         ? item?.id?.toString()
-                        : item?.toString()
+                        : (item as string)
                     const pId = p?.id?.toString()
                     return itemId === pId
                   })?.name ?? ''
@@ -131,7 +131,7 @@ export const UserCreate: React.FC = () => {
                     const itemId =
                       typeof item === 'object'
                         ? item?.id?.toString()
-                        : item?.toString()
+                        : (item as string)
                     const pId = p?.id?.toString()
                     return itemId === pId
                   })?.name ?? ''

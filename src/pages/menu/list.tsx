@@ -1,5 +1,11 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
-import { DeleteButton, EditButton, List, useDataGrid } from '@refinedev/mui'
+import {
+  DeleteButton,
+  EditButton,
+  List,
+  NumberField,
+  useDataGrid,
+} from '@refinedev/mui'
 import React from 'react'
 import { MenuResponse } from '../../models/responses/menuResponse'
 
@@ -22,6 +28,27 @@ export const MenuList = () => {
         flex: 1,
         headerName: 'Merchant',
         disableColumnMenu: true,
+      },
+      {
+        field: 'price',
+        flex: 1,
+        headerName: 'Price',
+        disableColumnMenu: true,
+        renderCell: function render({ row }) {
+          return (
+            <NumberField
+              value={row.price}
+              locale="id-ID"
+              options={{
+                compactDisplay: 'long',
+                currencyDisplay: 'code',
+                currencySign: 'accounting',
+                signDisplay: 'never',
+                currency: 'IDR',
+              }}
+            />
+          )
+        },
       },
       {
         field: 'actions',

@@ -119,6 +119,31 @@ export const MenuCreate: React.FC = () => {
             />
           )}
         />
+        <TextField
+          {...register('price', {
+            required: 'This field is required',
+          })}
+          error={!!errors?.price}
+          helperText={(errors as any)?.price?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="number"
+          label={'Price'}
+          name="price"
+        />
+        <TextField
+          {...register('description')}
+          error={!!errors?.description}
+          helperText={(errors as any)?.description?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          type="text"
+          label={'Description'}
+          name="description"
+          rows={2}
+        />
         <Stack
           direction="row"
           gap={4}

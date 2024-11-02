@@ -59,7 +59,9 @@ export const authProvider: AuthProvider = {
       return {
         id: currentUser.id,
         name: currentUser.name,
-        avatar: 'https://i.pravatar.cc/300',
+        avatar: currentUser.code
+          ? `https://files.dapoergo.online/api/files/${currentUser.code}`
+          : 'https://via.placeholder.com/100',
       }
     }
     return null

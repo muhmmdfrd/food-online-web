@@ -7,32 +7,30 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { Edit, useAutocomplete } from '@refinedev/mui'
-import { Controller } from 'react-hook-form'
-import { RoleResponse } from '../../models/responses/roleResponse'
-import { PositionResponse } from '../../models/responses/positionResponse'
+import { Create, useAutocomplete } from '@refinedev/mui'
 import { useForm } from '@refinedev/react-hook-form'
+import { Controller } from 'react-hook-form'
 import FileUploadIcon from '@mui/icons-material/FileUpload'
+import { MerchantResponse } from '../../models/responses/merchantResponse'
+import { useState } from 'react'
 
-export const UserUpdate: React.FC = () => {
+export const MenuCreate: React.FC = () => {
+  const [base64, setBase64] = useState<string | undefined>()
+
   const {
     saveButtonProps,
     refineCore: { formLoading },
     register,
     control,
     setValue,
-    setError,
     formState: { errors },
+    setError,
     getValues,
-  } = useForm()
+  } = useForm({})
 
-  const { autocompleteProps: roleProps } = useAutocomplete<RoleResponse>({
-    resource: 'roles',
-  })
-
-  const { autocompleteProps: positionProps } =
-    useAutocomplete<PositionResponse>({
-      resource: 'positions',
+  const { autocompleteProps: merchantProps } =
+    useAutocomplete<MerchantResponse>({
+      resource: 'merchants',
     })
 
   const onChangeHandler = async (
@@ -48,6 +46,7 @@ export const UserUpdate: React.FC = () => {
         reader.onload = (e) => {
           const base64String = e.target?.result as string
           setValue('file', base64String)
+          setBase64(base64String)
         }
 
         reader.readAsDataURL(file)
@@ -58,7 +57,7 @@ export const UserUpdate: React.FC = () => {
   }
 
   return (
-    <Edit isLoading={formLoading} saveButtonProps={saveButtonProps}>
+    <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
       <Box
         component="form"
         sx={{ display: 'flex', flexDirection: 'column' }}
@@ -77,38 +76,14 @@ export const UserUpdate: React.FC = () => {
           label={'Name'}
           name="name"
         />
-        <TextField
-          {...register('username', {
-            required: 'This field is required',
-          })}
-          error={!!errors?.username}
-          helperText={(errors as any)?.username?.message}
-          margin="normal"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          multiline
-          label={'Username'}
-          name="username"
-        />
-        <TextField
-          {...register('password')}
-          error={!!errors?.password}
-          helperText={(errors as any)?.password?.message}
-          margin="normal"
-          fullWidth
-          InputLabelProps={{ shrink: true }}
-          label={'Password'}
-          type="password"
-          placeholder="●●●●●●●●"
-        />
         <Controller
           control={control}
-          name={'roleId'}
+          name={'merchantId'}
           rules={{ required: 'This field is required' }}
-          defaultValue={null}
+          defaultValue={null as any}
           render={({ field }) => (
             <Autocomplete
-              {...roleProps}
+              {...merchantProps}
               {...field}
               onChange={(_, value) => {
                 if (value) {
@@ -117,7 +92,7 @@ export const UserUpdate: React.FC = () => {
               }}
               getOptionLabel={(item) => {
                 return (
-                  roleProps?.options?.find((p) => {
+                  merchantProps?.options?.find((p) => {
                     const itemId =
                       typeof item == 'object'
                         ? item?.id?.toString()
@@ -133,57 +108,17 @@ export const UserUpdate: React.FC = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label={'Role'}
+                  label={'Merchant'}
                   margin="normal"
                   variant="outlined"
-                  error={!!errors?.roleId}
-                  helperText={(errors as any)?.roleId?.message}
+                  error={!!(errors as any)?.merchantId}
+                  helperText={(errors as any)?.merchantId?.message}
                   required
                 />
               )}
             />
           )}
         />
-        <Controller
-          control={control}
-          name={'positionId'}
-          defaultValue={null}
-          render={({ field }) => (
-            <Autocomplete
-              {...positionProps}
-              {...field}
-              onChange={(_, value) => {
-                if (value) {
-                  field.onChange(value.id)
-                }
-              }}
-              getOptionLabel={(item) => {
-                return (
-                  positionProps?.options?.find((p) => {
-                    const itemId =
-                      typeof item == 'object'
-                        ? item?.id?.toString()
-                        : (item as string)
-                    const pId = p?.id?.toString()
-                    return itemId == pId
-                  })?.name ?? ''
-                )
-              }}
-              isOptionEqualToValue={(option, value) => {
-                return option.id.toString() == value.toString()
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={'Position'}
-                  margin="normal"
-                  variant="outlined"
-                />
-              )}
-            />
-          )}
-        />
-        <input {...register('code')} type="hidden" />
         <Stack
           direction="row"
           gap={4}
@@ -212,21 +147,19 @@ export const UserUpdate: React.FC = () => {
               </Typography>
             )}
           </label>
-          {getValues('code') && (
+          {base64 && (
             <Box
               component="img"
               sx={{
                 maxWidth: 250,
                 maxHeight: 250,
               }}
-              src={`https://files.dapoergo.online/api/files/${getValues(
-                'code'
-              )}`}
+              src={base64}
               alt="Post image"
             />
           )}
         </Stack>
       </Box>
-    </Edit>
+    </Create>
   )
 }

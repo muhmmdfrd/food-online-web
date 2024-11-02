@@ -1,17 +1,32 @@
-import { Autocomplete, Box, TextField } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Input,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { Create, useAutocomplete } from '@refinedev/mui'
 import { useForm } from '@refinedev/react-hook-form'
 import { Controller } from 'react-hook-form'
 import { RoleResponse } from '../../models/responses/roleResponse'
 import { PositionResponse } from '../../models/responses/positionResponse'
+import FileUploadIcon from '@mui/icons-material/FileUpload'
+import { useState } from 'react'
 
 export const UserCreate: React.FC = () => {
+  const [base64, setBase64] = useState<string | undefined>()
+
   const {
     saveButtonProps,
     refineCore: { formLoading },
     register,
     control,
+    setValue,
     formState: { errors },
+    watch,
+    setError,
   } = useForm({})
 
   const { autocompleteProps: roleProps } = useAutocomplete<RoleResponse>({
@@ -22,6 +37,29 @@ export const UserCreate: React.FC = () => {
     useAutocomplete<PositionResponse>({
       resource: 'positions',
     })
+
+  const onChangeHandler = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    try {
+      const target = event.target
+      const file: File = (target.files as FileList)[0]
+
+      if (file) {
+        const reader = new FileReader()
+
+        reader.onload = (e) => {
+          const base64String = e.target?.result as string
+          setValue('file', base64String)
+          setBase64(base64String)
+        }
+
+        reader.readAsDataURL(file)
+      }
+    } catch (error) {
+      setError('images', { message: 'Upload failed. Please try again.' })
+    }
+  }
 
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -87,11 +125,11 @@ export const UserCreate: React.FC = () => {
                 return (
                   roleProps?.options?.find((p) => {
                     const itemId =
-                      typeof item === 'object'
+                      typeof item == 'object'
                         ? item?.id?.toString()
                         : (item as string)
                     const pId = p?.id?.toString()
-                    return itemId === pId
+                    return itemId == pId
                   })?.name ?? ''
                 )
               }}
@@ -129,11 +167,11 @@ export const UserCreate: React.FC = () => {
                 return (
                   positionProps?.options?.find((p) => {
                     const itemId =
-                      typeof item === 'object'
+                      typeof item == 'object'
                         ? item?.id?.toString()
                         : (item as string)
                     const pId = p?.id?.toString()
-                    return itemId === pId
+                    return itemId == pId
                   })?.name ?? ''
                 )
               }}
@@ -153,6 +191,46 @@ export const UserCreate: React.FC = () => {
             />
           )}
         />
+        <Stack
+          direction="row"
+          gap={4}
+          flexWrap="wrap"
+          sx={{ marginTop: '16px' }}
+        >
+          <label htmlFor="images-input">
+            <Input
+              id="images-input"
+              type="file"
+              sx={{ display: 'none' }}
+              onChange={onChangeHandler}
+            />
+            <input id="file" {...register('file')} type="hidden" />
+            <Button
+              endIcon={<FileUploadIcon />}
+              variant="contained"
+              component="span"
+            >
+              Select Picture
+            </Button>
+            <br />
+            {errors.file && (
+              <Typography variant="caption" color="#fa541c">
+                {errors.file?.message?.toString()}
+              </Typography>
+            )}
+          </label>
+          {base64 && (
+            <Box
+              component="img"
+              sx={{
+                maxWidth: 250,
+                maxHeight: 250,
+              }}
+              src={base64}
+              alt="Post image"
+            />
+          )}
+        </Stack>
       </Box>
     </Create>
   )

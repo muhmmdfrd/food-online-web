@@ -5,4 +5,5 @@ export type UserResponse = {
   roleName: string
   roleId?: number
   positionId?: number
+  code?: string
 }

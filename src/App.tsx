@@ -26,6 +26,7 @@ import { constants } from './constants'
 import { MerchantCreate, MerchantList, MerchantUpdate } from './pages/merchant'
 import { PositionCreate, PositionList, PositionUpdate } from './pages/position'
 import { RoleCreate, RoleList, RoleUpdate } from './pages/role'
+import { MenuCreate, MenuUpdate, MenuList } from './pages/menu'
 
 function App() {
   return (
@@ -83,7 +84,17 @@ function App() {
                     meta: {
                       canDelete: true,
                     },
-                  }
+                  },
+                  {
+                    name: 'menus',
+                    list: '/menus',
+                    create: '/menus/create',
+                    edit: '/menus/edit/:id',
+                    show: '/menus/show/:id',
+                    meta: {
+                      canDelete: true,
+                    },
+                  },
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -128,6 +139,11 @@ function App() {
                       <Route index element={<RoleList />} />
                       <Route path="create" element={<RoleCreate />} />
                       <Route path="edit/:id" element={<RoleUpdate />} />
+                    </Route>
+                    <Route path="/menus">
+                      <Route index element={<MenuList />} />
+                      <Route path="create" element={<MenuCreate />} />
+                      <Route path="edit/:id" element={<MenuUpdate />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>

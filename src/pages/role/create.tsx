@@ -1,16 +1,12 @@
-import { Autocomplete, Box, TextField } from '@mui/material'
-import { Create, useAutocomplete } from '@refinedev/mui'
+import { Box, TextField } from '@mui/material'
+import { Create } from '@refinedev/mui'
 import { useForm } from '@refinedev/react-hook-form'
-import { Controller } from 'react-hook-form'
-import { RoleResponse } from '../../models/responses/roleResponse'
-import { PositionResponse } from '../../models/responses/positionResponse'
 
 export const RoleCreate: React.FC = () => {
   const {
     saveButtonProps,
     refineCore: { formLoading },
     register,
-    control,
     formState: { errors },
   } = useForm({})
 

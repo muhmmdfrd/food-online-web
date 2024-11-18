@@ -71,6 +71,7 @@ export const UserCreate: React.FC = () => {
         <TextField
           {...register('name', {
             required: 'This field is required',
+            maxLength: 100,
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}
@@ -84,6 +85,7 @@ export const UserCreate: React.FC = () => {
         <TextField
           {...register('username', {
             required: 'This field is required',
+            maxLength: 100,
           })}
           error={!!(errors as any)?.username}
           helperText={(errors as any)?.username?.message}

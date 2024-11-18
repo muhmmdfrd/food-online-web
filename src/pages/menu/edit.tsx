@@ -118,6 +118,8 @@ export const MenuUpdate: React.FC = () => {
         <TextField
           {...register('price', {
             required: 'This field is required',
+            min: 1,
+            maxLength: 10000000,
           })}
           error={!!errors?.price}
           helperText={(errors as any)?.price?.message}
@@ -129,7 +131,7 @@ export const MenuUpdate: React.FC = () => {
           name="price"
         />
         <TextField
-          {...register('description')}
+          {...register('description', { maxLength: 1000 })}
           error={!!errors?.description}
           helperText={(errors as any)?.description?.message}
           margin="normal"

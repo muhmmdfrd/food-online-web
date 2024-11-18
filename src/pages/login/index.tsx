@@ -80,6 +80,7 @@ export const Login: React.FC = () => {
         <Box component="form" onSubmit={handleSubmit((data) => onSubmit(data))}>
           <TextField
             {...register('username', {
+              maxLength: 100,
               required: translate(
                 'pages.login.errors.requiredUsername',
                 'Username is required'
@@ -103,6 +104,7 @@ export const Login: React.FC = () => {
                 'pages.login.errors.requiredPassword',
                 'Password is required'
               ),
+              maxLength: 100,
             })}
             id="password"
             margin="normal"

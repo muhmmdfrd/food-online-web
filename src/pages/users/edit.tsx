@@ -67,6 +67,7 @@ export const UserUpdate: React.FC = () => {
         <TextField
           {...register('name', {
             required: 'This field is required',
+            maxLength: 100,
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}
@@ -80,6 +81,7 @@ export const UserUpdate: React.FC = () => {
         <TextField
           {...register('username', {
             required: 'This field is required',
+            maxLength: 100,
           })}
           error={!!errors?.username}
           helperText={(errors as any)?.username?.message}

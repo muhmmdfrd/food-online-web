@@ -20,6 +20,7 @@ export const RoleCreate: React.FC = () => {
         <TextField
           {...register('name', {
             required: 'This field is required',
+            maxLength: 100,
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}

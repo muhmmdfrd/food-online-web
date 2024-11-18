@@ -62,6 +62,10 @@ export const MenuUpdate: React.FC = () => {
         <TextField
           {...register('name', {
             required: 'This field is required',
+            maxLength: {
+              value: 100,
+              message: 'Max 100 characters',
+            },
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}
@@ -118,8 +122,14 @@ export const MenuUpdate: React.FC = () => {
         <TextField
           {...register('price', {
             required: 'This field is required',
-            min: 1,
-            maxLength: 10000000,
+            min: {
+              value: 1,
+              message: 'Min Rp1',
+            },
+            max: {
+              value: 10000000,
+              message: 'Max Rp10.000.000',
+            },
           })}
           error={!!errors?.price}
           helperText={(errors as any)?.price?.message}
@@ -131,7 +141,12 @@ export const MenuUpdate: React.FC = () => {
           name="price"
         />
         <TextField
-          {...register('description', { maxLength: 1000 })}
+          {...register('description', {
+            maxLength: {
+              value: 1000,
+              message: 'Max 1000 characters',
+            },
+          })}
           error={!!errors?.description}
           helperText={(errors as any)?.description?.message}
           margin="normal"

@@ -85,6 +85,7 @@ export const Login: React.FC = () => {
                 'pages.login.errors.requiredUsername',
                 'Username is required'
               ),
+              setValueAs: (value: string) => value.trim(),
             })}
             id="username"
             margin="normal"
@@ -105,6 +106,7 @@ export const Login: React.FC = () => {
                 'Password is required'
               ),
               maxLength: 100,
+              setValueAs: (value: string) => value.trim(),
             })}
             id="password"
             margin="normal"

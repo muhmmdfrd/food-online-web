@@ -25,7 +25,6 @@ export const UserCreate: React.FC = () => {
     control,
     setValue,
     formState: { errors },
-    watch,
     setError,
   } = useForm({})
 
@@ -75,6 +74,7 @@ export const UserCreate: React.FC = () => {
               value: 100,
               message: 'Max 100 characters',
             },
+            setValueAs: (value: string) => value.trim(),
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}
@@ -92,6 +92,7 @@ export const UserCreate: React.FC = () => {
               value: 100,
               message: 'Max 100 characters',
             },
+            setValueAs: (value: string) => value.trim(),
           })}
           error={!!(errors as any)?.username}
           helperText={(errors as any)?.username?.message}
@@ -103,8 +104,52 @@ export const UserCreate: React.FC = () => {
           name="username"
         />
         <TextField
+          {...register('email', {
+            required: 'This field is required',
+            maxLength: {
+              value: 100,
+              message: 'Max 100 characters',
+            },
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: 'Enter a valid email',
+            },
+            setValueAs: (value: string) => value.trim(),
+          })}
+          error={!!(errors as any)?.email}
+          helperText={(errors as any)?.email?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          multiline
+          label={'Email'}
+          name="email"
+        />
+        <TextField
+          {...register('phoneNumber', {
+            required: 'This field is required',
+            maxLength: {
+              value: 20,
+              message: 'Max 20 characters',
+            },
+            pattern: {
+              value: /^[0-9]+$/,
+              message: 'Enter a valid phone number',
+            },
+            setValueAs: (value: string) => value.trim(),
+          })}
+          error={!!(errors as any)?.phoneNumber}
+          helperText={(errors as any)?.phoneNumber?.message}
+          margin="normal"
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+          label={'Phone Number'}
+          name="phoneNumber"
+        />
+        <TextField
           {...register('password', {
             required: 'This field is required',
+            setValueAs: (value: string) => value.trim(),
           })}
           error={!!(errors as any)?.password}
           helperText={(errors as any)?.password?.message}

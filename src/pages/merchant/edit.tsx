@@ -25,6 +25,7 @@ export const MerchantUpdate: React.FC = () => {
               value: 100,
               message: 'Max 100 characters',
             },
+            setValueAs: (value: string) => value.trim(),
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}

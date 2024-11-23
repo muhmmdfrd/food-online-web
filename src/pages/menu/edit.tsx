@@ -66,6 +66,7 @@ export const MenuUpdate: React.FC = () => {
               value: 100,
               message: 'Max 100 characters',
             },
+            setValueAs: (value: string) => value.trim(),
           })}
           error={!!errors?.name}
           helperText={(errors as any)?.name?.message}
@@ -146,6 +147,7 @@ export const MenuUpdate: React.FC = () => {
               value: 1000,
               message: 'Max 1000 characters',
             },
+            setValueAs: (value: string) => value.trim(),
           })}
           error={!!errors?.description}
           helperText={(errors as any)?.description?.message}

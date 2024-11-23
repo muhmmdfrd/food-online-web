@@ -6,4 +6,6 @@ export type UserResponse = {
   roleId?: number
   positionId?: number
   code?: string
+  email?: string
+  phoneNumber?: string
 }
